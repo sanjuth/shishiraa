@@ -4,7 +4,7 @@ import json
 from fastapi.middleware.cors import CORSMiddleware
 from json import dumps, loads
 from pydantic import BaseModel
-import joblib
+import pickle
 import numpy as np
 import pandas as pd
 
@@ -47,9 +47,9 @@ async def ml_model(values: Inputs):
     # data = json.load(values)
     print(data)
     
-    model = joblib.load("static\pricepredict.pkl")
+    model = pickle.load(open("static/finalized_model.sav", 'rb'))
     y=model.predict([[data['a'],data['b'],data['c'],data['d'],data['e'],data['f']]]).tolist()
     print(y)
     return {
-        'Result' : y[0]
+        'Result' : int(y[0])
     }
