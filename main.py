@@ -47,9 +47,13 @@ async def ml_model(values: Inputs):
     # data = json.load(values)
     print(data)
     
-    model = pickle.load(open("static/finalized_model.sav", 'rb'))
+    model = pickle.load(open("./static/finalized_model.sav", 'rb'))
     y=model.predict([[data['a'],data['b'],data['c'],data['d'],data['e'],data['f']]]).tolist()
     print(y)
     return {
         'Result' : int(y[0])
     }
+
+
+if __name__=='__main__':
+    uvicorn.run('main:app',host='0.0.0.0',port=8001,log_level="info")
